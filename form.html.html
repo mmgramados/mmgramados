@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MM Gramados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #32CD32;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            flex: 1;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input, textarea {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            color: black;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8em;
+            background-color: #f1f1f1;
+            color: black;
+        }
+    </style>
+    <script>
+        function enviarFormulario(event) {
+            event.preventDefault();
+            alert("Obrigado, assim que possível responderemos sua dúvida.");
+            document.getElementById("formContato").reset();
+            
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST['nome'];
+    $telefone = $_POST['telefone'];
+    $email = $_POST['email'];
+    $duvida = $_POST['duvida'];
+
+    $to = "mmgramados.tovar@gmail.com";
+    $subject = "Nova dúvida de jardinagem";
+    $message = "Nome: $nome\nTelefone: $telefone\nE-mail: $email\n\nDúvida:\n$duvida";
+    $headers = "From: $email";
+
+    if (mail($to, $subject, $message, $headers)) {
+        echo 'success';
+    } else {
+        echo 'error';
+    }
+}
+?>
+
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>MM Gramados</h1>
+        <p style="text-align: center;">Tire suas dúvidas sobre jardinagem</p>
+        <form id="formContato" onsubmit="enviarFormulario(event)">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+            
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" name="telefone" pattern="\d{11}" maxlength="11" required>
+            
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="duvida">Minha dúvida:</label>
+            <textarea id="duvida" name="duvida" maxlength="2048" required></textarea>
+            
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    <footer>
+        Criado pela MM Gramados - Siga-nos no instagram @mmgramados
+    </footer>
+</body>
+</html>
